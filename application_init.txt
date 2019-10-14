@@ -1,0 +1,4 @@
+Redirect urls - host/xbmccontrol/sbaccess
+Client Type - Public
+Authorization grant type - Authorization code
+Name - storyboard

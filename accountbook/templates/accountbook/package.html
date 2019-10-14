@@ -1,0 +1,9 @@
+{{ package.quantity }}
+<br />
+{{ package.price }}
+<br />
+{{ package.product.name }}
+<br />
+<a href="{% url 'accountbook:packageedit' package.idx %}">수정</a>
+<br />
+<a href="{% url 'accountbook:dealdetail' package.deal.idx %}">거래</a>

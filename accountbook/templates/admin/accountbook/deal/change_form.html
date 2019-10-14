@@ -1,0 +1,178 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTDb5eCN0tmoPCJ9WJmJ3-qq5wBNAW07Y&callback=initMap">
+</script>
+<script>
+    var longitude = 0;
+    var latitude = 0;
+    $(function() 
+    {   
+		$("input[type=radio]").checkboxradio({icon: false});
+		//$("select").selectmenu();
+		$("li > label").css({"padding": 5.2}).parent().css({"display": "inline-block"});
+
+        //위치 갱신 버튼
+        $( "#update_location" ).button().click(function( event ) {
+            if(navigator.geolocation)
+                navigator.geolocation.getCurrentPosition(onGeoSuccess);
+            else 
+                $.notify("Google Map API Geocoder가 지원되지 않는 브라우저나 장치입니다. ", "error");
+            event.preventDefault();
+        });	
+		
+        //위치 지정 버튼
+        $( "#update_address" ).button().click(function( event ) {										
+            latitude = parseFloat($( "#id_latitude" ).val());
+            longitude = parseFloat($( "#id_longitude" ).val());
+            setMap();
+            event.preventDefault();
+        });
+        
+        
+        //주소 지정 버튼
+        $( "#update_address2" ).button().click(function( event ) {												
+            setMap(1);
+            event.preventDefault();
+        });
+    });
+
+function onGeoSuccess(event)
+{  
+	latitude = event.coords.latitude;
+	longitude = event.coords.longitude;
+	$( "#id_latitude" ).val(latitude);
+	$( "#id_longitude" ).val(longitude);		
+	setMap();	
+}
+
+function setMap(updateaddr)
+{
+	if(typeof updateaddr !== 'undefined')
+	{//주소 지정		
+		var geocoder = new google.maps.Geocoder;		
+		
+		geocoder.geocode({'address': $( "#id_address" ).val()}, function(results, status) 
+		{	
+			if (status === google.maps.GeocoderStatus.OK) 
+			{
+				if (results[0]) 
+				{					
+					$( "#id_latitude" ).val(results[0].geometry.location.lat);
+					latitude = $( "#id_latitude" ).val();
+					$( "#id_longitude" ).val(results[0].geometry.location.lng);					
+					longitude = $( "#id_longitude" ).val();
+					
+					var map = new google.maps.Map(document.getElementById('map'), {
+						center: results[0].geometry.location,
+						zoom: 11
+					  });
+					  
+					var marker = new google.maps.Marker({
+						position: results[0].geometry.location,
+						map: map,
+						title: '지정 위치'
+					});
+					map.setZoom(15);					
+				}
+				else
+					$.notify("위치 검색결과가 없습니다.", "warn");
+			}
+			else 
+				$.notify("Google Map API Geocoder가 실패하였습니다. "+ status, "error");
+		});
+	}
+	else
+	{//위도 경도 지정
+		var map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: latitude, lng: longitude},
+			zoom: 11
+		  });
+		  
+		var marker = new google.maps.Marker({
+			position: {lat: latitude, lng: longitude},
+			map: map,
+			title: '지정 위치'
+		});
+		var geocoder = new google.maps.Geocoder;
+		var latlng = {lat: latitude, lng: longitude};
+		
+		geocoder.geocode({'location': latlng}, function(results, status) 
+		{
+			if (status === google.maps.GeocoderStatus.OK) 
+			{
+				if (results[1]) 
+				{
+					map.setZoom(15);
+					var marker = new google.maps.Marker({
+						position: latlng,
+						map: map
+					});
+					$( "#id_address" ).val(results[1].formatted_address);
+				}
+				else
+					$.notify("주소 검색결과가 없습니다.", "warn");
+			}
+			else 
+				$.notify("Google Map API Geocoder가 실패하였습니다. "+ status, "error");
+		});
+	}
+}
+
+function initMap() {
+	if($( "#id_latitude" ).val() !== "" && $( "#id_longitude" ).val() !== ""){
+		latitude = parseFloat($( "#id_latitude" ).val());
+		longitude = parseFloat($( "#id_longitude" ).val());
+		setMap();
+	}
+	
+}
+    </script>
+{% endblock %}
+
+
+{% block content %}<div id="content-main">
+    <p>This is override form!!!!</p>
+{% block object-tools %}
+    {{ block.super }}
+{% endblock %}
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
+{% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
+{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+{% if errors %}
+    <p class="errornote">
+    {% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+{% endif %}
+
+{% block field_sets %}
+    {{ block.super }}
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+
+{% block inline_field_sets %}
+    {{ block.super }}
+{% endblock %}
+<div id="map" style="width:100%;height:250px;"></div><br />
+<button id="update_location">위치 갱신</button><button id="update_address">위치 지정</button><button id="update_address2">주소 지정</button>
+
+{% block after_related_objects %}{% endblock %}
+
+{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+{% block admin_change_form_document_ready %}
+    {{ block.super }}    
+{% endblock %}
+
+{# JavaScript for prepopulated fields #}
+{% prepopulated_fields_js %}
+
+</div>
+</form></div>
+{% endblock %}

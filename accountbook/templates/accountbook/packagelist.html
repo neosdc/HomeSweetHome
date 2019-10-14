@@ -1,0 +1,11 @@
+{% if package_list %}
+    <ul>
+    {% for package in package_list %}
+        <li><a href="{% url 'accountbook:packageedit' package.idx %}">{{ package.product.name }} {{ package.quantity }} {{ package.price }} </a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>구성품이 없음.</p>
+{% endif %}
+
+<a href="{% url 'accountbook:packagecreate' dealid %}">구성품 등록</a>

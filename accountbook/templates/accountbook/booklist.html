@@ -1,0 +1,9 @@
+{% if accountbook_list %}
+    <ul>
+    {% for accountbook in accountbook_list %}
+        <li><a href="{% url 'accountbook:book' accountbook.idx %}">{{ accountbook.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No account books are available.</p>
+{% endif %}

@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load replace_bookpath %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<ul>
+  <li>
+      {{ spec.value|replace_bookpath }}
+  </li>
+  <li>
+      <form method="GET" action="">
+        <div></div>
+        <select value="{{ spec.value|default_if_none:'' }}"
+          name="{{ spec.parameter_name }}" onchange="this.form.submit()">
+          <option value="{{ spec.value }}" selected>---</option>
+          {% for i in spec.lookup_choices %}            
+          <option value="{{ i.0 }}">{{ i.1 }}</option>            
+          {% endfor %}
+      </select>
+    </form>
+  </li>
+</ul>

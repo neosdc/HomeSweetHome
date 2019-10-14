@@ -1,0 +1,11 @@
+{% if deal_list %}
+    <ul>
+    {% for deal in deal_list %}
+        <li><a href="{% url 'accountbook:dealdetail' deal.idx %}">{{ deal.title }}</a> <a href="{% url 'accountbook:packages' deal.idx %}">상품</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>거래 건이 없음.</p>
+{% endif %}
+
+<a href="{% url 'accountbook:dealcreate' %}">거래 등록</a>

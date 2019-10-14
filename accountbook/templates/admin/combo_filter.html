@@ -1,0 +1,17 @@
+{% load i18n %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<ul>  
+  <li>
+      <form method="GET" action="">        
+        <select name="{{ spec.parameter_name }}" onchange="this.form.submit()">          
+          {% for i in spec.lookup_choices %}
+            {% if spec.value != i.0 %}
+              <option value="{{ i.0 }}">{{ i.1 }}</option>
+            {% else %}
+              <option value="{{ i.0 }}" selected>{{ i.1 }}</option>            
+            {% endif %}
+          {% endfor %}
+      </select>
+    </form>
+  </li>
+</ul>

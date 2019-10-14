@@ -1,0 +1,85 @@
+{% extends "admin/import_export/change_list_import_export.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrahead %}{{ block.super }}
+<script>    
+
+format = function date2str(x, y) {
+    var z = {
+        M: x.getMonth() + 1,
+        d: x.getDate(),
+        h: x.getHours(),
+        m: x.getMinutes(),
+        s: x.getSeconds()
+    };
+    y = y.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+        return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
+    });
+
+    return y.replace(/(y+)/g, function(v) {
+        return x.getFullYear().toString().slice(-v.length)
+    });
+}
+
+function callRedirect(dFrom, dTo){
+  window.location = window.location.pathname + "?&regDate__gte=" + format(dFrom, 'yyyy-MM-dd') + "&regDate__lte=" + format(dTo, 'yyyy-MM-dd');
+  event.preventDefault();
+}
+
+    $(function() 
+    {
+        $( "#btn_thisweek" ).button().click(function( event ) {
+          var dFrom = new Date();
+          dFrom.setDate(dFrom.getDate() - dFrom.getDay() + 1);
+          var dTo = new Date();
+          dTo.setDate(dTo.getDate() + 7 - dTo.getDay());
+          callRedirect(dFrom, dTo);
+        });
+        $( "#btn_lastweek" ).button().click(function( event ) {
+          var dFrom = new Date();
+          dFrom.setDate(dFrom.getDate() - dFrom.getDay() - 6);
+          var dTo = new Date();
+          dTo.setDate(dTo.getDate() - dTo.getDay());
+          callRedirect(dFrom, dTo);
+        });
+
+        $( "#btn_thismonth" ).button().click(function( event ) {
+          var date = new Date;          
+          callRedirect(new Date(date.getFullYear(), date.getMonth(), 1), new Date(date.getFullYear(), date.getMonth() + 1, 0));
+        });
+        $( "#btn_lastmonth" ).button().click(function( event ) {
+          var date = new Date;          
+          callRedirect(new Date(date.getFullYear(), date.getMonth() - 1, 1), new Date(date.getFullYear(), date.getMonth(), 0));
+        });
+    });
+</script>
+{% endblock %}
+
+{% block filters %}  
+  {% if cl.has_filters %}
+    <div id="changelist-filter">
+      <h2>{% trans 'Filter' %}</h2>
+      <div>
+        <p>
+          <button id="btn_thisweek">이번 주</button>
+          <button id="btn_lastweek">지난 주</button>
+          <button id="btn_thismonth">이번 달</button>
+          <button id="btn_lastmonth">지난 달</button>
+        </p>
+      </div>
+      {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}      
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block result_list %}
+  {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}  
+  {% result_list cl %}  
+  {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+  <div class="results">
+    <div style="text-align: right;width: 100%;">
+      지출 합계 :<font size="4">{{ cl.total_expense_amount }}</font><br />수입 합계 :<font size="4">{{ cl.total_income_amount }}</font>
+    </div>
+  </div>
+{% endblock %}
+

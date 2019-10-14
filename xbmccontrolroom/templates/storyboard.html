@@ -1,0 +1,458 @@
+{% load i18n static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HomeSweetHome StoryBoard</title>
+	<link rel="stylesheet" href="{% static 'grapesjs/css/grapes.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/js/jquery-ui/jquery-ui.min.css' %}">
+	<link href="{% static 'grapesjs/css/grapesjs-preset-webpage.min.css' %}" rel="stylesheet"/>	
+	<script src="{% static 'admin/js/vendor/jquery/jquery.min.js' %} " type="text/javascript" charset="utf-8"></script>
+	<script src="{% static 'admin/js/notify.min.js' %}" type="text/javascript" ></script>
+    <script src="{% static 'admin/js/jquery-ui/jquery-ui.min.js' %}" type="text/javascript" ></script>
+    <script src="{% static 'grapesjs/grapes.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-plugin-export.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.9.2/ckeditor.js"></script>
+    <script src="{% static 'grapesjs/grapesjs-plugin-ckeditor.min.js' %}"></script>	
+	<script src="{% static 'grapesjs/grapesjs-tui-image-editor.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-blocks-basic.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-plugin-forms.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-navbar.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-component-countdown.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-style-filter.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-blocks-flexbox.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-lory-slider.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-tabs.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-tooltip.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-custom-code.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-touch.min.js' %}"></script>
+	<script src="{% static 'grapesjs/grapesjs-preset-webpage.min.js' %}"></script>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+      .cke_chrome {
+        border: none !important;
+      }
+      .cke_toolgroup {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+	  
+/* INFO PANEL */
+
+.gjs-mdl-dialog-sm {
+  width: 300px;
+}
+
+#info-panel {
+  line-height: 17px;
+}
+
+.info-panel-logo {
+  display: block;
+  height: 90px;
+  margin: 0 auto;
+  width: 90px;
+}
+
+.info-panel-logo path {
+  stroke: #eee !important;
+  stroke-width: 8 !important;
+}
+
+.info-panel-label {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.info-panel-link {
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+
+  <body>
+    <div id="gjs" style="height:0px; overflow:hidden;">
+      <div class="panel">
+        <h1 class="welcome">Welcome to</h1>
+        <div class="big-title">
+          <svg class="logo" viewBox="0 0 100 100">
+            <path d="M40 5l-12.9 7.4 -12.9 7.4c-1.4 0.8-2.7 2.3-3.7 3.9 -0.9 1.6-1.5 3.5-1.5 5.1v14.9 14.9c0 1.7 0.6 3.5 1.5 5.1 0.9 1.6 2.2 3.1 3.7 3.9l12.9 7.4 12.9 7.4c1.4 0.8 3.3 1.2 5.2 1.2 1.9 0 3.8-0.4 5.2-1.2l12.9-7.4 12.9-7.4c1.4-0.8 2.7-2.2 3.7-3.9 0.9-1.6 1.5-3.5 1.5-5.1v-14.9 -12.7c0-4.6-3.8-6-6.8-4.2l-28 16.2"/>
+          </svg>
+          <span>GrapesJS</span>
+        </div>
+        <div class="description">
+          This is a demo content from index.html. For the development, you shouldn't edit this file, instead you can
+          copy and rename it to _index.html, on next server start the new file will be served, and it will be ignored by git.
+        </div>
+      </div>
+      <style>
+        .panel {
+          width: 90%;
+          max-width: 700px;
+          border-radius: 3px;
+          padding: 30px 20px;
+          margin: 150px auto 0px;
+          background-color: #d983a6;
+          box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
+          color:rgba(255,255,255,0.75);
+          font: caption;
+          font-weight: 100;
+        }
+
+        .welcome {
+          text-align: center;
+          font-weight: 100;
+          margin: 0px;
+        }
+
+        .logo {
+          width: 70px;
+          height: 70px;
+          vertical-align: middle;
+        }
+
+        .logo path {
+          pointer-events: none;
+          fill: none;
+          stroke-linecap: round;
+          stroke-width: 7;
+          stroke: #fff
+        }
+
+        .big-title {
+          text-align: center;
+          font-size: 3.5rem;
+          margin: 15px 0;
+        }
+
+        .description {
+          text-align: justify;
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+
+      </style>
+    </div>
+{% load storyboard_app %}
+{% storyboard_app as storyboard_clientid %}
+    <div id="info-panel" style="display:none">
+      <div class="info-panel-label">
+        {% if storyboard_clientid %}
+			<p><b>StoryBoard</b>는 데이터의 저장과 관련하여 OAuth2를 사용함.</p>
+			<p><div id="btnTempSave">임시 저장</div><div id="btnTempLoad">임시 불러오기</div></p>
+			<p>
+				<input id="title" type="text" />
+				<div id="btnStoryBoardLoad">Download</div>
+				<input id="filePayload" type="file" />				
+				<div id="btnStoryBoardSave">Upload</div>
+			</p>
+		{% else %}
+			<b>StoryBoard</b>가 Django OAuth Toolkit Application에 등록되어 있지 않음!! 임시 저장/불러오기 기능이 비활성화 됨.		
+        {% endif %}       
+      </div>
+    </div>
+
+	<script type="text/javascript">
+
+	// using jQuery
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) == (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+		return cookieValue;
+	}
+	var csrftoken = getCookie('csrftoken');	
+	
+	function parse_query_string(query) {
+		var vars = query.split("&");
+		var query_string = {};
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			var key = decodeURIComponent(pair[0]);
+			var value = decodeURIComponent(pair[1]);
+			// If first entry with this name
+			if (typeof query_string[key] === "undefined") {
+			query_string[key] = decodeURIComponent(value);
+			// If second entry with this name
+			} else if (typeof query_string[key] === "string") {
+			var arr = [query_string[key], decodeURIComponent(value)];
+			query_string[key] = arr;
+			// If third or later entry with this name
+			} else {
+			query_string[key].push(decodeURIComponent(value));
+			}
+		}
+		return query_string;
+	}
+
+	var qs = parse_query_string(window.location.search.substring(1));
+	if(qs["code"] === undefined){		
+        {% if storyboard_clientid %}
+			window.location.href = "{{storyboard_clientid|escapejs}}";            
+		{% else %}
+			editor.load(res => $.notify("스토리 보드 편집기가 등록되어 있지 않음!! 임시 저장/불러오기 기능이 비활성화 됨.", "warning"));		
+        {% endif %}
+	}else{
+	}
+
+	
+	var filterInput = {
+		name: 'Filter',
+		property: 'filter',
+		type: 'filter', // <- the new type
+		full: 1,
+	  };
+
+	var importcontent = ''
+
+	var editor = grapesjs.init({
+		showOffsets: 1,
+		noticeOnUnload: 0,
+		container: '#gjs',
+		height: '100%',
+		fromElement: true,		
+		//No Storage Access
+		storageManager: {
+			type: 'remote',			
+			autosave: false,
+			autoload: true,
+			urlStore: '{% url 'xbmccontrolroom:sbtempsave' %}',
+			urlLoad: '{% url 'xbmccontrolroom:sbtempload' %}',
+			headers: { Authorization: 'Bearer ' + qs["code"], "X-CSRFToken": csrftoken },
+		},
+		//Local Stroage Access
+		/*storageManager: {
+			id: 'gjs-',             // Prefix identifier that will be used on parameters
+			type: 'local',          // Type of the storage
+			autosave: true,         // Store data automatically
+			autoload: true,         // Autoload stored data on init
+			stepsBeforeSave: 1,     // If autosave enabled, indicates how many changes are necessary before store method is triggered
+		},*/
+		plugins: ['grapesjs-plugin-export',
+				  'gjs-plugin-ckeditor', 
+				  'grapesjs-blocks-basic', 
+				  'grapesjs-tui-image-editor',
+				  'grapesjs-plugin-forms',
+				  'gjs-navbar',
+				  'gjs-component-countdown',
+				  'grapesjs-style-filter',
+				  'grapesjs-lory-slider',
+				  'grapesjs-tabs',
+				  'grapesjs-tooltip',
+				  'grapesjs-custom-code',
+				  'grapesjs-touch',
+				  'gjs-preset-webpage'],
+		pluginsOpts: {
+		  'grapesjs-plugin-export': {
+		  },
+		  'gjs-plugin-ckeditor': {
+			position: 'center',
+			options: {
+			  language: 'en',
+			  //skin: 'moono-dark',
+			}			
+		  },
+		  'grapesjs-tui-image-editor': {
+			  config: {
+				includeUI: {
+				  initMenu: 'filter',
+				},
+			  }
+			},
+			'grapesjs-lory-slider': {
+            sliderBlock: {
+              category: 'Extra'
+            }
+          },
+          'grapesjs-tabs': {
+            tabsBlock: {
+              category: 'Extra'
+            }
+          },
+          'gjs-preset-webpage': {
+            modalImportTitle: 'Import Template',
+            modalImportLabel: '<div style="margin-bottom: 10px; font-size: 13px;">Paste here your HTML/CSS and click Import</div>',
+            modalImportContent: function(editor) {
+              return importcontent;
+			},
+			showStylesOnChange: false,
+			customStyleManager: [{
+			  name: 'General',
+			  open: false,
+			  buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+			},{
+			  name: 'Flex',
+			  open: false,
+			  buildProps: ['flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order', 'flex-basis', 'flex-grow', 'flex-shrink', 'align-self']
+			},{
+			  name: 'Dimension',
+			  open: false,
+			  buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+			},{
+			  name: 'Typography',
+			  open: false,
+			  buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-shadow'],
+			},{
+			  name: 'Decorations',
+			  open: false,
+			  buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+			},{
+			  name: 'Extra',
+			  open: false,
+			  buildProps: ['transition', 'perspective', 'transform', 'filter', 'opacity'],
+			  properties: [ filterInput ],
+			}]
+		},
+		  //'gjs-component-countdown': {
+			//labelDays  : '일',
+			//labelHours : '시',
+			//labelMinutes : '분',
+			//labelSeconds : '초'}			
+		},
+		styleManager : {
+			clearProperties: 1		  
+		},
+	});
+
+	window.editor = editor;
+	editor.StyleManager.addProperty('Extra', filterInput);
+
+	editor.BlockManager.add('testBlock', {
+		label: 'Block',
+		attributes: { class:'gjs-fonts gjs-f-b1' },
+		content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+	});
+
+
+	var pn = editor.Panels;
+	var modal = editor.Modal;
+	var cmdm = editor.Commands;
+
+	// Add info command
+	var mdlClass = 'gjs-mdl-dialog-sm';
+	var infoContainer = document.getElementById('info-panel');
+	cmdm.add('open-info', function() {
+		var mdlDialog = document.querySelector('.gjs-mdl-dialog');
+		mdlDialog.className += ' ' + mdlClass;
+		infoContainer.style.display = 'block';
+		modal.setTitle('Access Storage');
+		modal.setContent(infoContainer);
+		modal.open();
+		modal.getModel().once('change:open', function() {
+			mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
+		})
+	});
+	pn.addButton('options', {
+		id: 'open-access',	
+		label: 'Info',
+		command: function() { editor.runCommand('open-info') },
+		attributes: {
+			'title': 'Access Information',				
+			'data-tooltip-pos': 'bottom',
+		},
+	});
+
+	//Free Drag Mode - not for toggle
+	//editor.getModel().set('dmode', 'absolute');
+
+	$(function() 
+    {
+		$("#btnTempSave").button().click(function( event ) {            
+			editor.store(res => $.notify("Temp Data Stored.", "success"));
+			event.preventDefault();
+		});        
+
+
+		$("#btnTempLoad").button().click(function( event ) {            
+			editor.load(res => $.notify("Temp Data Load from Server", "success"));
+			event.preventDefault();
+		});
+
+		$("#btnStoryBoardLoad").button().click(function( event ){
+			
+			var formData = new FormData();
+			formData.append("title", $("#title:first").prop('value'));			
+
+			$.ajax({
+                type : "POST",
+                url : "{% url 'xbmccontrolroom:sbload' %}",
+				beforeSend: function(request) {
+					request.setRequestHeader("Authorization", 'Bearer ' + qs["code"]);
+					request.setRequestHeader("X-CSRFToken", csrftoken);
+				},
+				data : formData,
+				enctype: 'multipart/form-data',
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+                success : function (ret) {
+                    if(ret.code == 1)
+                    {
+                        $.notify("스토리 보드 불러오기", "success");
+						console.log(ret.content);						
+						editor.setComponents(ret.content.trim());
+                    }
+                    else
+                        $.notify("스토리 보드 불러오기 오류.\n" + ret.desc, "error");
+                },
+                error : function (request, status, error) {
+                    $.notify("스토리 보드 불러오기에 실패하였습니다.", "error");
+                }
+            });
+			event.preventDefault();
+		});
+
+		$("#btnStoryBoardSave").button().click(function( event ){
+			var formData = new FormData();
+			formData.append("payload", $("#filePayload")[0].files[0]);
+			formData.append("title", $("#title:first").prop('value'));
+			formData.append("content", editor.getHtml() + '<style>'+editor.getCss()+'</style>');
+
+			$.ajax({
+                type : "POST",
+                url : "{% url 'xbmccontrolroom:sbsave' %}",
+				beforeSend: function(request) {
+					request.setRequestHeader("Authorization", 'Bearer ' + qs["code"]);
+					request.setRequestHeader("X-CSRFToken", csrftoken);
+				},
+				data : formData,
+				enctype: 'multipart/form-data',
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+                success : function (ret) {
+                    if(ret.code == 1)
+                    {
+                        $.notify("스토리 보드 저장됨", "success");
+                    }
+                    else
+                        $.notify("스토리 보드 저장 오류.\n" + ret.desc, "error");
+                },
+                error : function (request, status, error) {
+                    $.notify("스토리 보드 저장에 실패하였습니다.", "error");
+                }
+            });
+			event.preventDefault();
+		});
+	});
+    </script>
+  </body>
+</html>

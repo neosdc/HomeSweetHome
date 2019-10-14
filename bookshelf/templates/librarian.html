@@ -1,0 +1,147 @@
+{% extends "admin/index.html" %}
+{% load i18n static storyboard_app underscore_tags %}
+
+{% block extrahead %}{{ block.super }}
+<script src="{% static 'pdfjs/pdf.js' %}" type="text/javascript" ></script>
+<style>
+.highlight {
+  background-color: yellow;
+}
+</style>
+<script>
+
+function highlight(text) {
+  $('#bookshelf_result div div').each(function() {
+    //Handle special characters used in regex
+    var searchregexp = new RegExp("{{keyword}}".replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "gi");
+
+    //$& will maintain uppercase and lowercase characters.
+    $(this).html($(this).html().replace(searchregexp, "<span class = 'highlight'>$&</span>"));
+  });
+}
+
+  $(function() 
+    {
+      {% if result and result.hits.total.value > 0 %}
+      total = {{result.hits.total.value}};
+      highlight('{{keyword}}');
+      $("#bookshelf_result").accordion();
+
+$("#next").button().click( function( event ) {
+        $("#keyword").val("{{keyword}}");
+        next = {{from_|add:+10}};        
+        total_from = total - ((total % 10) == 0 ? 10 : (total % 10) );
+        $("#from").val(next > total_from ? total_from : next);
+        $("#submit").click();
+        event.preventDefault();
+      });
+      $("#prev").button().click( function( event ) {
+        $("#keyword").val("{{keyword}}");
+        prev = {{from_|add:-10}};
+        $("#from").val(prev < 0 ? 0 : prev);
+        $("#submit").click();
+        event.preventDefault();
+      });
+
+      $("#first").button().click( function( event ) {
+        $("#keyword").val("{{keyword}}");
+        $("#from").val(0);
+        $("#submit").click();
+        event.preventDefault();
+      });
+      $("#last").button().click( function( event ) {
+        $("#keyword").val("{{keyword}}");                
+        total_from = total - ((total % 10) == 0 ? 10 : (total % 10) );
+        $("#from").val(total_from);
+        $("#submit").click();
+        event.preventDefault();
+      });
+
+      $("#submit").button().click( function( event ) {
+        if("{{keyword}}" != $("#keyword").val()){
+          $("#from").val(0);
+        }                
+        $("#frm").submit();        
+      });
+
+      $("#bookshelf_result h1 a").button();
+
+      from_ = {{from_}} + 1;      
+      to_ = ((from_ + 10) > total + 1 ? total + 1 : from_ + 10) - 1;
+      $("#bookshekf_result_count").html("<p>" + total + "건 검색됨 " + from_ + "부터 " + to_ + "까지</p>");
+      {% elif titles and titles.count > 0 %}
+      total = {{titles.count}};
+      
+      $("#bookshekf_result_count").html("<p>" + total + "건 검색됨</p>");
+      {% else %}
+      total = 0;
+      {% endif %}
+
+
+      $("[name=category]").checkboxradio();
+
+      
+
+
+      
+    });    
+    </script>
+{% endblock %}
+{% block content %}
+<div id="content-main">
+  <form method="GET" id="frm" action="{% url 'bookshelf:librarianview' %}">
+    <fieldset>            
+      {% if category == 1 %}
+      <label for="category-1">제목</label>
+      <input type="radio" name="category" id="category-1" value="0">
+      <label for="category-2">내용</label>
+      <input type="radio" name="category" id="category-2" value="1" checked>
+      {% else %}
+      <label for="category-1">제목</label>
+      <input type="radio" name="category" id="category-1" value="0" checked>
+      <label for="category-2">내용</label>
+      <input type="radio" name="category" id="category-2" value="1">      
+      {% endif %}
+      <input type="hidden" name="from" id="from" value="{{from_}}" >
+    </fieldset>          
+    <input type="text" name="keyword" id="keyword" value="{{keyword}}">
+    <input type="submit" name="submit" id="submit" value="검색">
+    {% if result and result.hits.total.value > 0 %}  
+    <br />
+    <input type="button" name="first" id="first" value="처음">
+    <input type="button" name="prev" id="prev" value="이전">
+    <input type="button" name="next" id="next" value="다음">
+    <input type="button" name="last" id="last" value="마지막">
+    {% endif %}
+  </form>
+  <div id="bookshekf_result_count"></div>  
+{% if result and result.hits.total.value > 0 %}  
+  <div id="bookshelf_result">    
+  {% for doc in result.hits.hits %}        
+      <h3>{{ doc|dict_:"_source"|dict_:"title" }} : p.{{ doc|dict_:"_source"|dict_:"page" }} : {{ doc|dict_:"_score" }}</h3>
+      <div>
+        <p>
+          <h1><a href="{% url 'bookshelf:download' %}?idx={{ doc|dict_:'_source'|dict_:'idx' }}">다운로드</a>
+          <a href="{% url 'bookshelf:bookstand' %}?idx={{ doc|dict_:'_source'|dict_:'idx' }}">보기</a></h1>            
+          <div>
+          {{ doc|dict_:"_source"|dict_:"content"|safe }}
+        </p>
+      </div>
+  {% endfor %}
+  </div>
+{% elif titles and titles.count > 0 %}
+  <div id="bookshelf_result">    
+  {% for doc in titles %}        
+      <h3>{{ doc.name }}</h3>
+      <div>
+        <p>
+          <h1><a href="{% url 'bookshelf:download' %}?idx={{ doc.idx }}">다운로드 {{ doc.name }}</a></h1>
+        </p>
+      </div>
+  {% endfor %}
+  </div>
+{% else %}
+    <p>No result.</p>
+{% endif %}
+</div>
+{% endblock %}

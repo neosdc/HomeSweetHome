@@ -1,0 +1,11 @@
+{{ deal.title }}
+<br />
+{{ deal.amount }}
+<br />
+{{ deal.attachedFile_Tag }}
+<br />
+{{ deal.regDate }}
+<br />
+<a href="{% url 'accountbook:packages' deal.idx %}">구성품</a>
+<br />
+<a href="{% url 'accountbook:dealedit' deal.idx %}">수정</a>

@@ -1,0 +1,12 @@
+
+LoadFile "C:/Users/±è½Â¿µ/AppData/Local/Programs/Python/Python36/python36.dll"
+LoadModule wsgi_module "C:/Users/±è½Â¿µ/AppData/Local/Programs/Python/Python36/lib/site-packages/mod_wsgi/server/mod_wsgi.cp36-win_amd64.pyd"
+WSGIScriptAlias / "D:\WorkingCopy\Area3\HomeSweetHome\HomeSweetHome\wsgi.py"
+WSGIPythonHome "C:/Users/±è½Â¿µ/AppData/Local/Programs/Python/Python36"
+WSGIPythonPath "D:\WorkingCopy\Area3\HomeSweetHome"
+
+<Directory "D:\WorkingCopy\Area3\HomeSweetHome\HomeSweetHome">	
+	Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
