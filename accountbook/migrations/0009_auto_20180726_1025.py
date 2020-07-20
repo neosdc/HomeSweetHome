@@ -16,12 +16,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('relation', models.IntegerField(choices=[(0, '소모품'), (1, '구성품')], default=0)),
-                ('master', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_master', to='accountbook.Product')),
-                ('slave', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_slave', to='accountbook.Product')),
+                ('main', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_main', to='accountbook.Product')),
+                ('subordinate', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_subordinate', to='accountbook.Product')),
             ],
         ),
         migrations.AlterUniqueTogether(
             name='productrelation',
-            unique_together={('master', 'slave')},
+            unique_together={('main', 'subordinate')},
         ),
     ]
