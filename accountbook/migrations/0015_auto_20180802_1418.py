@@ -93,8 +93,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='productrelation',
-            name='master',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_master', to='accountbook.Product', verbose_name='상위'),
+            name='main',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_main', to='accountbook.Product', verbose_name='상위'),
         ),
         migrations.AlterField(
             model_name='productrelation',
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='productrelation',
-            name='slave',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_slave', to='accountbook.Product', verbose_name='하위'),
+            name='subordinate',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productrelation_relation_subordinate', to='accountbook.Product', verbose_name='하위'),
         ),
     ]

@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('amount', models.IntegerField(default=0)),
                 ('holdings', models.IntegerField(default=0)),
                 ('price', models.IntegerField(default=0)),
-                ('asset', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wealth_relation_master', to='accountbook.Product')),
+                ('asset', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wealth_relation_main', to='accountbook.Product')),
             ],
         ),
         migrations.AlterField(

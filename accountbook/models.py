@@ -124,9 +124,9 @@ class ProductRelation(models.Model):
         (COMPONENT, '구성품')
     )
     class Meta:
-        unique_together = (('master', 'slave'),)
-    master = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='%(class)s_relation_master', verbose_name='상위')
-    slave = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='%(class)s_relation_slave', verbose_name='하위')
+        unique_together = (('main', 'subordinate'),)
+    main = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='%(class)s_relation_main', verbose_name='상위')
+    subordinate = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='%(class)s_relation_subordinate', verbose_name='하위')
     relation = models.IntegerField(default=CONSUMABLE, choices=RELATION_CHOICES, verbose_name='유형')
 
 class Package(models.Model):
